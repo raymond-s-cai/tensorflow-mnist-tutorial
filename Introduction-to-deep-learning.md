@@ -41,7 +41,7 @@ presentation:
 <!-- slide -->
 ## Introduction to Deep Learning
 
-> by **Ray Cai (LC85640)**
+> by **Ray Cai**
 > from **PMC, ISG, ICG**
 
 <!-- slide -->
