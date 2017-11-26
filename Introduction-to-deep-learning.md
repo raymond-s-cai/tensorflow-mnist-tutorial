@@ -48,7 +48,7 @@ presentation:
 ## Agenda
 
 1. Application Areas
-2. Technology
+2. Approaches
 
 <!-- slide -->
 ## Application Areas
@@ -60,18 +60,19 @@ presentation:
 * Bioinformatics
 
 <!-- slide -->
-## Google Speech Recognition
+## Speech Recognition
 
 ![](figures/google-speech-recognition-error-rate.png)
 
+* [Google Speech API](https://cloud.google.com/speech/)
 <!-- slide -->
-## Google Speech Recognition
+## Speech Recognition
 
 ![](figures/google-speech-api-pricing.png)
 
 **$1.44 per Hour**
 
-* [CLOUD SPEECH API](https://cloud.google.com/speech/)
+* [Google Speech API](https://cloud.google.com/speech/)
 
 <!-- slide -->
 ## Image Recognition
@@ -127,7 +128,7 @@ presentation:
 * [A Neural Algorithm of Artistic Style](https://arxiv.org/abs/1508.06576)
 
 <!-- slide -->
-## Technology
+## Approaches
 
 <!-- slide -->
 ## Deep Learning
@@ -138,52 +139,6 @@ presentation:
     * **Deep learning**
   * Decision Tree
   * ...
-
-<!-- slide -->
-## Supervised Learning
-
-* Given a set of ${\displaystyle N}$ training examples of the form ${\displaystyle \{(x_{1},y_{1}),...,(x_{N},\;y_{N})\}} \{(x_1, y_1), ..., (x_N,\; y_N)\}$
-* Define a scoring function ${\displaystyle f:X\times Y\to {\mathbb {R}}}$
-* Seek a function ${\displaystyle g:X\to Y}$, which returning the ${\displaystyle y}$ value that gives the highest score: ${\displaystyle g(x)={\underset {y}{\arg \max }}\;f(x,y)}$.
-
-<!-- slide -->
-## Linear Regression
-
-![linear-regression](/assets/linear-regression.png)
-
-<!-- slide -->
-## Linear Regression
-$$
-g = \beta_0 + \beta_1 \times X \\
-f = \sum_{i=1}^{N} (g(x_i)-Y_i)^2
-$$
-
-Seek $\beta_0$ and $\beta_1$, which minimize $f$
-
-$$
-\begin{equation}
-\begin{split}
-f & = \sum(\beta_0 + 
-\begin{bmatrix}
-x_1 \\
-x_2 \\
-x_3 \\
-... \\
-x_n
-\end{bmatrix}
-\times \beta_1 - 
-\begin{bmatrix}
-y_1 \\
-y_2 \\
-y_3 \\
-... \\
-y_n
-\end{bmatrix}
-)^2 \\
-  & = ?
-\end{split}
-\end{equation}
-$$
 
 <!-- slide -->
 ## Artificial Neural Network
@@ -250,74 +205,56 @@ $$
 ![](figures/1d8fc59e6a674f1c.png)
 
 <!-- slide -->
+## Mathematical Problem
+
+**Known:**
+
+$$
+Y = softmax(X.W+b)
+$$
+
+$$
+L = -\Sigma{Y'_i.log(Y_i)}
+$$
+
+**Adjust $W$ and $b$ minimise $L$**
+
+<!-- slide -->
 ## Gradient Descent
 
 ![](figures/34e9e76c7715b719.png)
 
 <!-- slide -->
-## Code
-```python
-import tensorflow as tf
-
-X = tf.placeholder(tf.float32, [None, 28, 28, 1])
-W = tf.Variable(tf.zeros([784, 10]))
-b = tf.Variable(tf.zeros([10]))
-
-init = tf.initialize_all_variables()
-```
-```python
-# model
-Y = tf.nn.softmax(tf.matmul(tf.reshape(X, [-1, 784]), W) + b)
-# placeholder for correct labels
-Y_ = tf.placeholder(tf.float32, [None, 10])
-
-# loss function
-cross_entropy = -tf.reduce_sum(Y_ * tf.log(Y))
-
-# % of correct answers found in batch
-is_correct = tf.equal(tf.argmax(Y,1), tf.argmax(Y_,1))
-accuracy = tf.reduce_mean(tf.cast(is_correct, tf.float32))
-```
-
-<!-- slide -->
-## Code 
-```python
-optimizer = tf.train.GradientDescentOptimizer(0.003)
-train_step = optimizer.minimize(cross_entropy)
-```
-```python
-sess = tf.Session()
-sess.run(init)
-
-for i in range(1000):
-    # load batch of images and correct answers
-    batch_X, batch_Y = mnist.train.next_batch(100)
-    train_data={X: batch_X, Y_: batch_Y}
-    # train
-    sess.run(train_step, feed_dict=train_data)
-    # success ?
-    a,c = sess.run([accuracy, cross_entropy], feed_dict=train_data)
-    # success on test data ?
-    test_data={X: mnist.test.images, Y_: mnist.test.labels}
-    a,c = sess.run([accuracy, cross_entropy], feed=test_data)
-```
-
-<!-- slide -->
-## Code
+## Accuracy
 
 ![](figures/e102f513bec53e08.png)
 
 <!-- slide -->
-## Deep Learning
+## Deep Neural Network
 
 ![](figures/77bc41f211c9fb29.png)
 
 <!-- slide -->
-## Deep Learning
+## Mathematical Problem
+
+$$
+T_1 = sigmoid(X.W_1+b_1) \\
+T_2 = sigmoid(T_1.W_2+b_2) \\
+T_3 = sigmoid(T_2.W_2+b_2) \\
+T_4 = sigmoid(T_3.W_3+b_3) \\
+Y = sigmoid(T_4.W_4+b_4)
+$$
+
+$$
+L = -\Sigma{Y'_i.log(Y_i)}
+$$
+
+<!-- slide -->
+## Accuracy
 ![](figures/dbbf4c8edae90438.png)
 
 <!-- slide -->
-## Advanced Neural Network
+## More Complex Neural Network
 
 * Convolutional networks
 
@@ -327,23 +264,18 @@ for i in range(1000):
 ![](figures/53c160301db12a6e.png)
 
 <!-- slide -->
-## Activation Function
+## Accuracy
 
-* Sigmoid
-* Relu
-
-<!-- slide -->
-## Sigmoid
-
-![](figures/e5d46c389470df62.png)
-
-<!-- slide -->
-## Relu
-
-![](figures/60cac06459b3cc08.png)
+![](figures/convolutional-result.png)
 
 <!-- slide -->
 ## Reference
 
 1. [TensorFlow and deep learning, without a PhD](https://codelabs.developers.google.com/codelabs/cloud-tensorflow-mnist)
 2. [Deep Learning](https://en.wikipedia.org/wiki/Deep_learning)
+
+<!-- slide -->
+## Q&A
+
+<!-- slide -->
+## Thank You
